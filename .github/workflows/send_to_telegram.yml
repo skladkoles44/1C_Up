@@ -1,0 +1,27 @@
+name: Notify Telegram on Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract commit info
+        run: |
+          TEXT="🛠 Новая выгрузка в 1C_Up\n"
+          TEXT+="Автор: ${{ github.actor }}\n"
+          TEXT+="Коммит: ${{ github.event.head_commit.message }}\n"
+          TEXT+="Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          echo "$TEXT" > message.txt
+
+      - name: Send to Telegram
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        run: |
+          CHAT_ID="1210917225"
+          curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage \
+            -d chat_id="$CHAT_ID" \
+            -d text="$(cat message.txt)"
