@@ -1,4 +1,7 @@
-name: Notify Telegram on Push
+echo "🛠 Новая выгрузка в 1C_Up" > message.txt
+echo "Автор: ${{ github.actor }}" >> message.txt
+echo "Коммит: ${{ github.event.head_commit.message }}" >> message.txt
+echo "Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}" >> message.txtname: Notify Telegram on Push
 
 on:
   push:
