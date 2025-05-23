@@ -1,7 +1,4 @@
-echo "🛠 Новая выгрузка в 1C_Up" > message.txt
-echo "Автор: ${{ github.actor }}" >> message.txt
-echo "Коммит: ${{ github.event.head_commit.message }}" >> message.txt
-echo "Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}" >> message.txtname: Notify Telegram on Push
+name: Notify Telegram on Push
 
 on:
   push:
@@ -14,11 +11,10 @@ jobs:
     steps:
       - name: Extract commit info
         run: |
-          TEXT="🛠 Новая выгрузка в 1C_Up\n"
-          TEXT+="Автор: ${{ github.actor }}\n"
-          TEXT+="Коммит: ${{ github.event.head_commit.message }}\n"
-          TEXT+="Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
-          echo "$TEXT" > message.txt
+          echo "🛠 Новая выгрузка в 1C_Up" > message.txt
+          echo "Автор: ${{ github.actor }}" >> message.txt
+          echo "Коммит: ${{ github.event.head_commit.message }}" >> message.txt
+          echo "Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}" >> message.txt
 
       - name: Send to Telegram
         env:
@@ -27,4 +23,4 @@ jobs:
           CHAT_ID="1210917225"
           curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage \
             -d chat_id="$CHAT_ID" \
-            -d text="$(cat message.txt)"
+            --data-urlencode text@"message.txt"
