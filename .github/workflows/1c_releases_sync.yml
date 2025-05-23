@@ -1,0 +1,14 @@
+name: 1C Release Sync
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run parser
+        run: echo "🔧 Парсер будет добавлен позже"
